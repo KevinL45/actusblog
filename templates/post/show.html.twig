@@ -1,0 +1,51 @@
+{% extends "layouts/base.html.twig" %}
+
+{% block content %}
+
+ <div class="row">
+                <div class="col-12">
+                        {% include "components/_flashe.html.twig" %}
+                </div>
+        </div>
+
+<div class="row">
+    <div class="col-10 my-4 mx-auto">
+
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title text-center mb-5">{{post.title}}</h1>
+                <p class="h4 text-center mb-3 text-secondary">{{post.subtitle}}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-center text-muted">Crée le : {{post.createdAt | date('d/m/Y')}} | Par : {{post.author.firstname}} {{post.author.lastname}} </li>
+            </ul>
+            <img class="img-custom" src="{{ asset('uploads/' ~ post.photo) }}" alt="">
+            <div class="card-body">
+                <p class="card-text my-4 col-10 mx-auto">{{post.content | raw}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% if app.user %}
+
+{{ render( url('add_commentary',{'id' : post.id}) )}}
+
+{% endif %}
+<h3>Espace commentaires</h3>
+{% if commentaries is not null %}
+    
+
+<div class="row">
+        <div class="col-5 mx-auto">
+            {% for commentary in commentaries %}
+                <div class="bg-light shadow">
+                <p>Créé le {{commentary.createdAt | date('d/m/Y')}} | Par : {{commentary.author.firstname}} {{commentary.author.lastname}}</p>
+                <p>{{commentary.comment}}</p>
+                </div>
+            {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
